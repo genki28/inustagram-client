@@ -23,6 +23,7 @@
 
 <script>
     import { ALL_ANIMES } from "../constants/animes-query"
+    // import gql from 'graphql-tag'
 
     export default {
         name: "AnimesTable",
