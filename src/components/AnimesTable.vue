@@ -92,6 +92,7 @@
                 <td>{{ anime.hero }}</td>
                 <td>{{ anime.id }}</td>
                 <td @click="showDialogUpdate(anime.id, anime.title, anime.hero)">更新</td>
+                <td @click="deleteAnime(anime.id)">削除</td>
             </div>
             <td></td>
         </table>
@@ -100,7 +101,7 @@
 
 <script>
 import { ALL_ANIMES } from "../constants/animes-query"
-import { CREATE_ANIME, UPDATE_ANIME } from "../constants/animes-mutations"
+import { CREATE_ANIME, UPDATE_ANIME, DELETE_ANIME } from "../constants/animes-mutations"
 // import gql from 'graphql-tag'
 
     export default {
@@ -138,7 +139,6 @@ import { CREATE_ANIME, UPDATE_ANIME } from "../constants/animes-mutations"
         },
         methods: {
             createAnime: function () {
-                console.log(CREATE_ANIME)
                 if (this.$refs.form.validate()) {
                     this.progress = true
                     this.$apollo.mutate({
@@ -167,7 +167,6 @@ import { CREATE_ANIME, UPDATE_ANIME } from "../constants/animes-mutations"
             },
             updateAnime: function() {
                 this.progress = true
-                console.log(UPDATE_ANIME)
                 this.$apollo.mutate({
                     mutation: UPDATE_ANIME,
                     variables: {
@@ -182,6 +181,24 @@ import { CREATE_ANIME, UPDATE_ANIME } from "../constants/animes-mutations"
                 }).catch((error) => {
                     console.log(JSON.stringify(error, null, 2))
                     console.error(error)
+                })
+            },
+            deleteAnime: function(id) {
+                // console.log(id)
+                this.progress = true
+                this.$apollo.mutate({
+                    mutation: DELETE_ANIME,
+                    variables: {
+                        animeId: id
+                    }
+                }).then((data) => {
+                    // console.log(data)
+                    this.animes = data.data.deleteAnime.anime
+                    this.dialog = false
+                    this.progress = false
+                }).catch((error) => {
+                    console.log(JSON.stringify(error, null, 2))
+                    console.log(error)
                 })
             },
             // フォームのクリア

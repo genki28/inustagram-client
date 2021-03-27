@@ -24,3 +24,17 @@ export const UPDATE_ANIME = gql`
         }
     }
 `
+
+export const DELETE_ANIME = gql`
+    mutation($animeId: ID!) {
+        deleteAnime(animeId: $animeId) {
+            success
+            message
+            anime {
+                id
+                title
+                hero
+            }
+        }
+    }
+`
