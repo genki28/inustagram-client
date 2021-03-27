@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <!-- 入力フォーム -->
+        <!--入力フォーム-->
         <v-dialog v-model="dialog" max-width="500px">
             <v-card>
                 <v-container>
@@ -58,9 +58,11 @@
         </v-toolbar>
 
         <!-- データテーブル -->
-        <v-data-table
+        <!-- <v-data-table
             :headers="headers"
             :items="animes"
+            :loading="progress"
+            :pagination.sync="pagination"
             no-data-text="アニメが登録されていません。"
             class="elevation-1"
         >
@@ -75,23 +77,31 @@
                         small
                         outline
                         flat
-                        @click="showDialogUpdate(props.item.id, props.item.name, props.item.gender)"
+                        @click="showDialogUpdate(props.item.id, props.item.title, props.item.hero)"
                     >
                         <v-icon small>
                             edit
                         </v-icon>
                     </v-btn>
                 </td>
-                <!-- headerの中にボタン用の物がないから表示されない？？-->
             </template>
-        </v-data-table>
+        </v-data-table> -->
+        <table>
+            <div v-for="anime in animes" :key="anime.id">
+                <td>{{ anime.title }}</td>
+                <td>{{ anime.hero }}</td>
+                <td>{{ anime.id }}</td>
+                <td @click="showDialogUpdate(anime.id, anime.title, anime.hero)">更新</td>
+            </div>
+            <td></td>
+        </table>
     </v-container>
 </template>
 
 <script>
-    import { ALL_ANIMES } from "../constants/animes-query"
-    import { CREATE_ANIME, UPDATE_ANIME } from "../constants/animes-mutations"
-    // import gql from 'graphql-tag'
+import { ALL_ANIMES } from "../constants/animes-query"
+import { CREATE_ANIME, UPDATE_ANIME } from "../constants/animes-mutations"
+// import gql from 'graphql-tag'
 
     export default {
         name: "AnimesTable",
@@ -128,6 +138,7 @@
         },
         methods: {
             createAnime: function () {
+                console.log(CREATE_ANIME)
                 if (this.$refs.form.validate()) {
                     this.progress = true
                     this.$apollo.mutate({
@@ -156,10 +167,11 @@
             },
             updateAnime: function() {
                 this.progress = true
+                console.log(UPDATE_ANIME)
                 this.$apollo.mutate({
                     mutation: UPDATE_ANIME,
                     variables: {
-                        id: this.anime.id,
+                        animeId: this.anime.id,
                         title: this.anime.title,
                         hero: this.anime.hero,
                     }
@@ -168,6 +180,7 @@
                     this.dialog = false
                     this.progress = false
                 }).catch((error) => {
+                    console.log(JSON.stringify(error, null, 2))
                     console.error(error)
                 })
             },

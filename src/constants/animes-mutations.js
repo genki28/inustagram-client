@@ -12,7 +12,7 @@ export const CREATE_ANIME = gql`
 `
 
 export const UPDATE_ANIME = gql`
-    mutation($animeId: String, $title: String, $hero: String) {
+    mutation($animeId: ID!, $title: String, $hero: String) {
         updateAnime(animeId: $animeId, title: $title, hero: $hero) {
             success
             message
