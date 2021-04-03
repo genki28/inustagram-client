@@ -1,30 +1,19 @@
 <template>
   <v-app>
-    <AnimesTable />
+    <MessageTable />
   </v-app>
 </template>
 
 <script>
-import AnimesTable from '@/components/AnimesTable'
-import gql from 'graphql-tag'
+import MessageTable from '@/components/MessageTable'
 
 export default {
   name: 'App',
 
   components: {
-    AnimesTable
+    // AnimesTable
+    MessageTable
   },
-
-  apollo: {
-    books: gql`
-      query books {
-          books {
-            title
-            author
-          }
-    }`
-  },
-
   data: () => ({
     //
   }),

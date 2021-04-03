@@ -102,7 +102,7 @@
 <script>
 import { ALL_ANIMES } from "../constants/animes-query"
 import { CREATE_ANIME, UPDATE_ANIME, DELETE_ANIME } from "../constants/animes-mutations"
-// import gql from 'graphql-tag'
+import gql from 'graphql-tag'
 
     export default {
         name: "AnimesTable",

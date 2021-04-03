@@ -4,9 +4,11 @@
     </div>
 </template>
 <script>
-import ALL_MESSAGE from '../constants/message-query'
-import CREATE_MESSAGE from '../constants/message-mutations'
-import SUBSCRIPTION_MESSAGE from '../constants/message-subscription'
+import { ALL_MESSAGES } from '../constants/message-query'
+import { SUBSCRIPTION_MESSAGE } from '../constants/message-subscription'
+// import CREATE_MESSAGE from '../constants/message-mutations'
+// import SUBSCRIPTION_MESSAGE from '../constants/message-subscription'
+// import gql from 'graphql-tag'
 
 export default {
     name: "MessageTable",
@@ -18,27 +20,14 @@ export default {
     }),
     apollo: {
         // すべてのメッセージ取得
-        messages: gql`
-            query messages {
-                id
-                sendUser
-                receiveUser
-                message
-            }
-        `,
-        subscribeToMore: {
-            Message: gql`
-                subscription {
-                    mutation
-
-                    data {
-                        id
-                        sendUser
-                        receiveUser
-                        message
-                    }
+        messages: ALL_MESSAGES,
+        $subscribe: {
+            messages: {
+                query: SUBSCRIPTION_MESSAGE,
+                result (data) {
+                    this.messages = data.data.Message.data
                 }
-            `
+            }
         }
     },
 }
