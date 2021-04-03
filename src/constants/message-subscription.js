@@ -7,6 +7,8 @@ export const SUBSCRIPTION_MESSAGE = gql`
         
         data {
         id
+        sendUser
+        receiveUser
         message
         }
     }
